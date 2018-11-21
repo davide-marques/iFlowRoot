@@ -559,7 +559,7 @@
 //this.listWrapper.css("width", (this.listWrapper.width() + 60) + 'px');
 
 // pgoncalves 20170814 - Já não aumenta o tamanho da dropdown
-this.input.css("width", (this.listWrapper.width() + 40) + 'px');
+this.input.css("width", (this.listWrapper.width() +17) + 'px');
 this.input.css("left", (89 - this.listWrapper.width()) + 'px');
 this.input.css("font-size", '0.95em');
 //this.listWrapper.css("width", (this.listWrapper.width() + 60) + 'px');

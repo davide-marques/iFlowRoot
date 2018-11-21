@@ -202,7 +202,7 @@
 					{
 					font-weight: normal;
 					color: #1E5B78;
-					padding: 3px 0 0 10px;
+					padding: 3px 0 0 5px;
 
 					text-align: left;
 					color: black;
@@ -303,7 +303,7 @@
 					ol {
 					list-style:
 					none;
-					text-align: right;
+					/*text-align: right;*/
 					clear:both;
 					padding: 0;
 					margin: 0;
@@ -499,6 +499,22 @@
 					/*background-color: #e0e0e0;*/
 					border-bottom: 1px solid #cccccc;
 					}
+					
+					li.textlabel{
+					font-weight: bold;
+					min-height:20px;
+					/*height:auto !important;*/
+					height:45px;
+					padding: 5px 5px 5px 0;
+					/*background-color: #e0e0e0;*/
+					
+					border-bottom: 1px solid #cccccc;
+					display: flex;
+					justify-content: space-between;
+					height: 100%;
+					align-items: center;
+					width:99%;
+					}
 
 					li.textmessage {
 					border: none;
@@ -506,6 +522,10 @@
 
 					li.textbox {
 					padding: 5px 5px 5px 0;
+					display: flex;
+					height: 100%;
+					justify-content: space-between;
+					width:99%;
 					}
 
 					li.datecal {
@@ -513,7 +533,10 @@
 					/*background-color: #e0e0e0;*/
 					border-bottom: 1px solid #cccccc;
 					padding: 5px 5px 5px 0;
-					height:45px;
+					display: flex;
+					height: 100%;
+					justify-content: space-between;
+					width:99%;
 					}
 
 					li.textarea {
@@ -524,6 +547,10 @@
 					border-bottom: 1px solid
 					#cccccc;
 					padding: 5px 5px 5px 0;
+					display: flex;
+					height: 100%;
+					justify-content: space-between;
+					width:99%;
 					}
 
 					li.selection,
@@ -542,9 +569,13 @@
 					li.selection {
 					border-bottom:
 					1px solid #cccccc;
-					padding: 8px
-					5px 2px 0;
-					height:45px;
+					padding: 5px 5px 5px
+					0;
+					text-align: left;
+					display: flex;
+					height: 100%;
+					justify-content: space-between;
+					width:99%;
 					}
 
 
@@ -585,6 +616,7 @@
 					font-weight: normal;
 					color: #222244;
 					margin-left: 5px;
+					text-align:left;
 					}
 
 					label.textmessage,
@@ -597,6 +629,18 @@
 					label.image,
 					label.link,
 					label.file {
+					}
+
+					label.selection{
+					padding-right: 5%;
+					margin-right:
+					0px;
+					height: 100%;
+					text-align:left;
+					}
+					label.textlabel{
+					padding-right: 5%;
+					text-align:left;
 					}
 
 					label.arraytable {
@@ -1138,7 +1182,7 @@
 									</xsl:attribute>
 									<xsl:attribute name="style">
 										<xsl:text>max-width:</xsl:text><xsl:value-of
-										select="size/text()*7+28" />
+										select="size/text()*7+28" /><xsl:text>px;</xsl:text>
 									</xsl:attribute>
 									<xsl:attribute name="id">
 			<xsl:value-of select="variable/text()" />

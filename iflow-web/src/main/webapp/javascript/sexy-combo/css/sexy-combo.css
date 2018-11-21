@@ -9,19 +9,20 @@ div.combo {
     position:relative;
     left: 0px;
     top: 0px;
-    heigth: 35;
+    height: 35px;
 }
 
 
 /*text input*/
 .combo input {
-    position: absolute;
+    /*position: absolute;*/
 }
 
 
 /*icon*/
 .combo div.icon {
-    position:absolute;
+    /*position:absolute;*/
+    float:right;
 }
 
 

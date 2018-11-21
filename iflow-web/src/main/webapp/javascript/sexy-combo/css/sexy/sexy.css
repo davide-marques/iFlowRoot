@@ -6,18 +6,23 @@
 
 div.sexy {
     white-space: nowrap;
-    height: 21px;
+    /*height: 21px;*/
     border: 0;
     margin: 0;
     padding: 0;
-    width: 146px;
-    padding-top:42px;
+   /* width: 160px;
+    padding-top:42px;*/
+    display: flex;
+
+height: 100%;
+
+align-items: flex-start;
 }
 
 div.sexy input {
     margin: 0 0 0 0;
     /*font:normal 12px tahoma, arial, helvetica, sans-serif;*/
-    padding:1px 3px;
+    /*padding:1px 3px;*/
     background:#fff url(text-bg.gif) repeat-x 0 0;
     border:1px solid #B5B8C8;
     height: 34px;
@@ -37,7 +42,7 @@ div.sexy div.icon {
     cursor:pointer;
     /*border-bottom: 1px solid #B5B8C8;*/
     top:0px;
-    left: 120px; 
+    left: 65%; 
 
 }
 
@@ -54,7 +59,7 @@ div.sexy div.list-wrapper {
 /*    top: 32px;
     left: -100px;
 */
-    right: -5px;
+    right: 5px;
     top: 33px;
 }
 
@@ -70,7 +75,7 @@ div.sexy ul {
     height: 200px;
 }
 
-/* Pedro Gonçalves - Alterações estilo - 20170814 */
+/* Pedro Gonï¿½alves - Alteraï¿½ï¿½es estilo - 20170814 */
 
 div.sexy  li {
 	
