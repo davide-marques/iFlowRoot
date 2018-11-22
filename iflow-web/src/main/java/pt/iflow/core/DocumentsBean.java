@@ -337,9 +337,9 @@ public class DocumentsBean implements Documents {
       //#ENCRYPT
 	  //Logger.info(userInfo.getUtilizador(), this, "addDocument", procData.getSignature() + "NOT ENCRYPTED BAIS "+ new String(adoc.getContent()) );
  	 
-	  if(TO_ENCRYPT) {
-		  adoc.setContent(new FileEncrypterDecrypter().encryptByteArray(adoc.getContent(), db));
-	  }
+//	  if(TO_ENCRYPT) {
+//		  adoc.setContent(new FileEncrypterDecrypter().encryptByteArray(adoc.getContent(), db));
+//	  }
 	 // Logger.info(userInfo.getUtilizador(), this, "addDocument", procData.getSignature() + " ENCRYPTED BAIS "+ new String(adoc.getContent()) );
 	  
 	  //#ENCRYPT END
@@ -465,10 +465,10 @@ public class DocumentsBean implements Documents {
     	 //#ENCRYPT
     	  Logger.info(userInfo.getUtilizador(), this, "addDocument", procData.getSignature() + "NOT ENCRYPTED BAIS "+ new String(adoc.getContent()) );
      	 
-    	  if(TO_ENCRYPT) {
-    		  adoc.setContent(new FileEncrypterDecrypter().encryptByteArray(adoc.getContent(), db));
-    	  }
-    	  Logger.info(userInfo.getUtilizador(), this, "addDocument", procData.getSignature() + " ENCRYPTED BAIS "+ new String(adoc.getContent()) );
+//    	  if(TO_ENCRYPT) {
+//    		  adoc.setContent(new FileEncrypterDecrypter().encryptByteArray(adoc.getContent(), db));
+//    	  }
+//    	  Logger.info(userInfo.getUtilizador(), this, "addDocument", procData.getSignature() + " ENCRYPTED BAIS "+ new String(adoc.getContent()) );
     	  
     	  //#ENCRYPT END
         
@@ -777,13 +777,13 @@ public class DocumentsBean implements Documents {
     	//  Logger.info(userInfo.getUtilizador(), this, "getDocument", procData.getSignature() + "NOT DECRYPTED BAIS "+ new String(adoc.getContent()) );
      	 
     	  //if(toEncrypt) {
-    		  retObj.setContent(new FileEncrypterDecrypter().decryptByteArray(baos.toByteArray(), db));
+    		 // retObj.setContent(new FileEncrypterDecrypter().decryptByteArray(baos.toByteArray(), db));
     	  //}
     	 // Logger.info(userInfo.getUtilizador(), this, "getDocument", procData.getSignature() + " DECRYPTED BAIS "+ new String(adoc.getContent()) );
     	  
     	  //#DECRYPT END
           
-          //retObj.setContent(baos.toByteArray());// get DOC CONTENT #DM
+          retObj.setContent(baos.toByteArray());// get DOC CONTENT #DM
         }
       } else {
         retObj = null;
