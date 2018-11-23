@@ -125,7 +125,8 @@ a.linkform:active {
 }
 
 .table_inc {
-	width: 40rem;
+	/*width: 40rem;*/
+	width: 98%;
 }
 
 .table_inc {
