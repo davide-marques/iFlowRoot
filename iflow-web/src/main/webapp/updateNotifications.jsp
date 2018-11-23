@@ -17,7 +17,7 @@
 			<th style="padding: 8px;"></th>
 			<th></th>
 			<th></th>
-			<th></th>
+			
 			<% 
 			int odd=1;
 			String class_type,text_style,msg_icon,msg_action,msg_onclick;
@@ -64,7 +64,8 @@
 				
 				%>					
 				<tr class="tab_row_<%= class_type%>" id="msg_tr_<%= notification.getId() %>" style="<%=text_style %>;border-top:1px solid black">
-					<td>
+					<!-- #733 Notificações não aparecem na popup -->
+					<!--<td>
 						<div class="dropdown">
 							<div class="dropdown-toggle" data-toggle="dropdown" id="dropdownmenu_<%= notification.getId() %>" data-toggle="dropdown" onClick="cancelMenu=true;">
 								<img src="Themes/newflow/images/V.png"/>
@@ -85,7 +86,7 @@
 								
 							</div>
 						</div>
-					</td>
+					</td>-->
 					<td style="padding: 8px;text-align: left;">
 						<%= notification.getMessage() %> - <%= notification.getCreated() %></br>
 						<%= notification.getSender() %>
@@ -99,7 +100,7 @@
 				
 					<td class="itemlist_icon" style="padding: 8px;">
 						<a onclick="showSchedule(); attributeValueSchedule(<%= notification.getId() %>);">
-							<img class="toolTipImg" src="images/flowScheduling_new.png" id="msg_img_<%= notification.getId() %>" width="16" height="16" border="0" title=""></img>
+							<img class="toolTipImg" src="images/icon_clock.png" id="msg_img_<%= notification.getId() %>" width="16" height="16" border="0" title=""></img>
 						</a>
 					</td>										
 	

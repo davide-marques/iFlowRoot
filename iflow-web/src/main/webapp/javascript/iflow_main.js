@@ -1241,7 +1241,7 @@ function markNotificationCallback_alert(text, params) {
 	    	  break;
 	      case 'D':  // delete
 	    	  if($("#msg_img_"+id).attr("src") =="images/icon_unread.png")
-	        	  $("#delegButtonCount").text(val-1);
+	        	//  $("#delegButtonCount").text(val-1);
 	    	  $(objRef).remove();
 	    	 // tabber(6,'','',inboxJSP,'');
 	        break;
@@ -1294,7 +1294,7 @@ function markNotificationCallback(text, params) {
     	  
       case 'D':  // delete
     	  if($("#msg_img_"+id).attr("src") =="images/icon_unread.png")
-        	  $("#delegButtonCount").text(val-1);
+        	 // $("#delegButtonCount").text(val-1);
     	  $(objRef).remove();
     	  tabber(6,'','',inboxJSP,'');
         break;
@@ -2215,17 +2215,7 @@ function MarkCategoryCallBack(error) {
   folderIdToChange = '';
 }
 
-function updateNotifications(){
-	launchBrowserNotificationCheckers();
-	//launchAppNotificationCheckers();
-}
 
-function launchBrowserNotificationCheckers(){
-	makeRequest('updateNotifications.jsp', '', updateNotificationsCallback, 'text');
-	makeRequest('countNotifications.jsp', '', countNotificationsCallback, 'text');
-	makeRequest('checkAlertNotifications.jsp', '', checkAlertNotificationsCallback, 'text');
-	window.setTimeout(launchBrowserNotificationCheckers, 30000);
-}
 
 function launchAppNotificationCheckers(){
 	makeRequest('checkShowNotificationDetail.jsp', '', checkShowNotificationDetailCallback, 'text');
@@ -2240,33 +2230,9 @@ function checkShowNotificationDetailCallback(response){
 	}
 }
 
-function checkAlertNotificationsCallback(response){
-	try{
-		var check = Json.evaluate(response);
-		if (check.length > 0)
-			showAlertOpen();
-		
-		var i=0;
-		var interval = window.setInterval(function () {
-			doNotification ('',check[i].alert.text +'  '+ check[i].alert.link , check[i].alert.id , 5, check[i].alert);
-			if (++i >= check.length) 
-	          window.clearInterval(interval);	        
-	     }, 500);
 
-	} catch (err) {}
-}
 
-function updateNotificationsCallback(response){
-	try{
-		document.getElementById("table_notifications").innerHTML = response;		
-	} catch (err) {}	
-}
 
-function countNotificationsCallback(response){
-	try{
-		document.getElementById('delegButtonCount').text = response.trim();
-	} catch (err) {}
-}
 
 function pickActivityFromNotificationCallback(response){
 	tabber_right(1, 'main_content.jsp', 'cleanFilter=1');
@@ -2325,15 +2291,7 @@ function changeLogType(value){
 
 
 
-function showAlert() {	
-	if(document.getElementById("alert_list").classList.contains('notvisible')) {	
-		document.getElementById("alert_list").classList.remove('notvisible');	
-		document.getElementById("alert_list").classList.add('visible');
-	} else {
-		document.getElementById("alert_list").classList.remove('visible');	
-		document.getElementById("alert_list").classList.add('notvisible');
-	}	
-}
+
 
 function showAlertOpen() {	
 	document.getElementById("alert_list").classList.remove('notvisible');	
@@ -2472,22 +2430,123 @@ function fsmailer(isOn){
 		}
 		}
 
-//[NOTIFICATIONS] 
-try{
-	if($("#delegButtonCount"))setInterval(delegButtonHide, 100);
+//[NOTIFICATIONS] /*To ALWAYS update delegbutton depending on notifications*/
+
+try{ 
+	if($("#delegButtonCount")){
+		
+		setInterval(delegButtonCountUpdate, 200);
+		//setInterval(delegButtonHide, 200);
+		//setInterval(notificationListUpdate, 200);
+		//setInterval(notificationListHide, 200);
+	}
 } catch (err) {}
 
 function delegButtonHide(){
 	try{
-	if( parseInt($("#delegButtonCount").text())<=0){
-		$("#delegButtonCount").parent().addClass("notvisible");
-	}else{
+	if( parseInt($("#delegButtonCount").text())>0){
 		$("#delegButtonCount").parent().removeClass("notvisible");
+		
+	}else{
+		$("#delegButtonCount").parent().addClass("notvisible");
 	}
 	} catch (err) {}
 }
 
+function notificationListHide(){
+	try{
+		if( parseInt($("#delegButtonCount").text())<=0){
+			$("#alert_list").removeClass("visible");
+			$("#alert_list").addClass("notvisible");
+		}
+		} catch (err) {}
+}
+
+function delegButtonCountUpdate(){
+	try{
+		makeRequest('countNotifications.jsp', '', countNotificationsCallback, 'text');
+	} catch (err) {}
+}
+
+function notificationListUpdate(){
+	try{
+		makeRequest('updateNotifications.jsp', '', updateNotificationsCallback, 'text');
+	} catch (err) {}
+}
+
+function countNotificationsCallback(response){
+	try{
+		if(typeof countNotificationsCallback.onload == 'undefined' ){
+			countNotificationsCallback.onload = true;
+		}
+		
+		var newcount = parseInt(response.trim());
+		if(parseInt($("#delegButtonCount").text()) != newcount || countNotificationsCallback.onload ){
+			document.getElementById('delegButtonCount').text = newcount;
+			delegButtonHide();
+			notificationListUpdate();
+			notificationListHide();
+			countNotificationsCallback.onload = false;
+		}
+		
+	} catch (err) {}
+}
+
+
+function updateNotificationsCallback(response){
+	try{
+		document.getElementById("table_notifications").innerHTML = response;		
+	} catch (err) {}	
+}
+
+function showAlert() {	
+	try{
+		if( parseInt( $("#delegButtonCount").text()) > 0 ){
+			if( $("#alert_list").hasClass("notvisible") ){
+				$("#alert_list").removeClass("notvisible");
+				$("#alert_list").addClass("visible");			
+			}else{
+				$("#alert_list").removeClass("visible");
+				$("#alert_list").addClass("notvisible");
+			}
+		}
+	}catch(err){}
+}
+
 
 //[NOTIFICATIONS] END
+
+//[NOTIFICATIONS_OLD] 
+function updateNotifications(){
+	//launchBrowserNotificationCheckers();
+	//launchAppNotificationCheckers();
+}
+
+function launchBrowserNotificationCheckers(){
+	makeRequest('updateNotifications.jsp', '', updateNotificationsCallback, 'text');
+	makeRequest('countNotifications.jsp', '', countNotificationsCallback, 'text');
+	//makeRequest('checkAlertNotifications.jsp', '', checkAlertNotificationsCallback, 'text');
+	window.setTimeout(launchBrowserNotificationCheckers, 30000);
+}
+
+
+
+function checkAlertNotificationsCallback(response){
+	try{
+		var check = Json.evaluate(response);
+		if (check.length > 0)
+			showAlertOpen();
+		
+		var i=0;
+		var interval = window.setInterval(function () {
+			doNotification ('',check[i].alert.text +'  '+ check[i].alert.link , check[i].alert.id , 5, check[i].alert);
+			if (++i >= check.length) 
+	          window.clearInterval(interval);	        
+	     }, 500);
+
+	} catch (err) {}
+}
+
+//[NOTIFICATIONS_OLD] END
 
 

@@ -125,7 +125,7 @@ a.linkform:active {
 }
 
 .table_inc {
-	width: 98%;
+	width: 40rem;
 }
 
 .table_inc {
@@ -1200,9 +1200,10 @@ td.gauge_empty {
 }
 
 #table_notifications {
-	height: 40rem;
-	overflow-y: scroll;
-	margin-top: 1rem;
+	height: auto;
+	max-height: 40vh;
+	overflow-y: auto;
+	/*margin-top: 1rem;*/
 	border: 1px solid black;
 	box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
 	cursor: auto;
