@@ -455,7 +455,7 @@
                                             
                                           	<!-- NEW -->
                                           	<!-- [NOTIFICATIONS] -->
-											<li>
+											<li id="alerts_container">
 												<a id="delegButton" onclick="showAlert()">
 				                               		<img width="35px" height="32px" src="images/alertas.png"/>
 												</a>
@@ -465,7 +465,7 @@
 												
 												<ul id="alert_list" class="notification-area notvisible">
 													
-				                                   	<div class="table_inc" id="msg_table" style="color:black;" >
+				                                   	<div class="table_inc" id="msg_table" style="color:black; width: 40rem" >
 				                                   	
 				                                   		<div class="" style="display:inline; width:100%;">
 															<!--<span class="spanAlert" style="color:black; display:inline;	padding: 0; background-color:initial;">$notificationsMsg | </span>-->

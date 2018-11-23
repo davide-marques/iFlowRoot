@@ -2432,6 +2432,20 @@ function fsmailer(isOn){
 
 //[NOTIFICATIONS] /*To ALWAYS update delegbutton depending on notifications*/
 
+try{
+	$(document).on('click', function(event) {
+		  if (!$(event.target).closest('#alerts_container').length) {
+		    // Hide the menus.
+			  if( $("#alert_list").hasClass("visible") ){
+		    		$("#alert_list").removeClass("visible");
+		    		$("#alert_list").addClass("notvisible");
+		    	}
+		  }
+		});
+	
+
+} catch (err) {}
+
 try{ 
 	if($("#delegButtonCount")){
 		
@@ -2516,7 +2530,7 @@ function showAlert() {
 
 //[NOTIFICATIONS] END
 
-//[NOTIFICATIONS_OLD] 
+//[NOTIFICATIONS] WHAT IN THE NAME OF OUR LORD Brendan Eich IS THIS?
 function updateNotifications(){
 	//launchBrowserNotificationCheckers();
 	//launchAppNotificationCheckers();
@@ -2547,6 +2561,6 @@ function checkAlertNotificationsCallback(response){
 	} catch (err) {}
 }
 
-//[NOTIFICATIONS_OLD] END
+//[NOTIFICATIONS] END
 
 
