@@ -7,9 +7,10 @@
 <%@page import="pt.iflow.api.licensing.LicenseServiceFactory"%>
 <%	
 	Collection<Notification> notifications = BeanFactory.getNotificationManagerBean().listNotifications(userInfo);
-	Collection<DelegationInfoData> delegations = BeanFactory.getDelegationInfoBean().getDeployedReceivedDelegations(userInfo);
-	Collection<Notification> msgs = BeanFactory.getNotificationManagerBean().listAllNotifications(userInfo);
-	Integer nAlerts = (notifications == null ? 0 : notifications.size()) + (delegations == null ? 0 : delegations.size());
+	//Collection<DelegationInfoData> delegations = BeanFactory.getDelegationInfoBean().getDeployedReceivedDelegations(userInfo);
+	//Collection<Notification> msgs = BeanFactory.getNotificationManagerBean().listAllNotifications(userInfo);
+	Integer nAlerts = (notifications == null ? 0 : notifications.size()) ;
+	//Integer nAlerts = (notifications == null ? 0 : notifications.size()) + (delegations == null ? 0 : delegations.size());
 %>
 <table class="item_list table" style="color:black;">
 	<thead>
@@ -21,7 +22,7 @@
 			<% 
 			int odd=1;
 			String class_type,text_style,msg_icon,msg_action,msg_onclick;
-			for(Notification notification: msgs){
+			for(Notification notification: notifications){
 				if(odd==0){
 					class_type="even";
 					odd=1;
@@ -99,16 +100,18 @@
 					</td>
 				
 					<td class="itemlist_icon" style="padding: 8px;">
-						<a onclick="showSchedule(); attributeValueSchedule(<%= notification.getId() %>);">
-							<img class="toolTipImg" src="images/icon_clock.png" id="msg_img_<%= notification.getId() %>" width="16" height="16" border="0" title=""></img>
+						 <a onclick="showSchedule(); attributeValueSchedule(<%= notification.getId() %>);">
+							<img class="toolTipImg" src="images/icon_clock.png" id="msg_img_<%= notification.getId() %>"  width="16" height="16" border="0" title=""></img>
 						</a>
-					</td>										
+						
+					</td>									
 	
 					<td class="itemlist_icon" style="padding: 8px;">
 							<a href="javascript:markNotification_alert(<%= notification.getId() %>, 'D');">
 								<img class="toolTipImg" src="images/icon_delete.png" id="msg_img_<%= notification.getId() %>" width="16" height="16" border="0" title=""></img>
 							</a>
 						</td>
+					
 					</tr>
 				<%} %>												
 		</tr>

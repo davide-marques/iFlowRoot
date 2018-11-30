@@ -129,6 +129,10 @@
 
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
 		
+	
+		
+
+		
 		
 		<script language="JavaScript">
 
@@ -486,16 +490,19 @@
 					               					
 					               					<div class="col-md-12" style="margin-top: 4%;height: 4rem;">
 					               						<div class="col-md-3" style="width:16px;"></div>
-					               							<div class="col-md-9 col-sm-6">
+					               							 <div class="col-md-9 col-sm-6">
 														  	<div class="form-group">
-															<div class='input-group date' id='calendar'>
-																 <input type='text' class="form-control" id='suspend_date'/>
+															<!--<div class='input-group date' id='calendar'>
+																<input type='text' class="form-control" id='suspend_date'/>
 																	<span class="input-group-addon">
 																	<span class="glyphicon glyphicon-calendar"></span>
 																	</span>
-																</div>
+																	
+																</div>-->
+																<input type="text" class="txt form-control donotclosemenu" id="suspend_date" value="" onmouseover="notification_caltasks(this.id, '%Y-%m-%d %H:%M');this.onmouseover=null;" style="display: inline; width: 150px; height: 20px;" data-hasqtip="583" oldtitle="Data de adiamento" title="Data de adiamento" >
 															</div>
 														</div>
+														
 													</div>
 													
 													<div class="col-md-12" style="margin-top:2%;">	               						

@@ -35,6 +35,7 @@ public class NotificationManagerBean implements NotificationManager {
   
   private static final int MSG_CODE_NEW = 0;
   private static final int MSG_CODE_READ = 1;
+  private static final int MSG_CODE_DELETE = 2;
   private static final int MSG_MAX_SIZE = 500;
   
   
@@ -86,26 +87,26 @@ public class NotificationManagerBean implements NotificationManager {
     final String query = "delete from notifications where created < ?";
 
     // apaga mensagens antigas
-    Connection db = null;
-    PreparedStatement st = null;
-    DataSource ds = null;
-    try {
-      ds = Utils.getDataSource();
-      db = ds.getConnection();
-      db.setAutoCommit(true);
-      st = db.prepareStatement(query);
-      st.setTimestamp(1, new Timestamp(cal.getTimeInMillis()));
-
-      int n = st.executeUpdate();
-
-      st.close();
-      st = null;
-      Logger.adminInfo("NotificationManager", "purgeOldMessages", "Removed "+n+" old notification messages.");
-    } catch (SQLException e) {
-      Logger.adminWarning("NotificationManager", "purgeOldMessages", "Error removing old notification messages.",e);
-    } finally {
-      DatabaseInterface.closeResources(db, st);
-    }
+//    Connection db = null;
+//    PreparedStatement st = null;
+//    DataSource ds = null;
+//    try {
+//      ds = Utils.getDataSource();
+//      db = ds.getConnection();
+//      db.setAutoCommit(true);
+//      st = db.prepareStatement(query);
+//      st.setTimestamp(1, new Timestamp(cal.getTimeInMillis()));
+//
+//      int n = st.executeUpdate();
+//
+//      st.close();
+//      st = null;
+//      Logger.adminInfo("NotificationManager", "purgeOldMessages", "Removed "+n+" old notification messages.");
+//    } catch (SQLException e) {
+//      Logger.adminWarning("NotificationManager", "purgeOldMessages", "Error removing old notification messages.",e);
+//    } finally {
+//      DatabaseInterface.closeResources(db, st);
+//    }
   }
 
   public Collection<Notification> listNotifications(UserInfoInterface userInfo) {
@@ -120,7 +121,7 @@ public class NotificationManagerBean implements NotificationManager {
     if(userInfo == null) return null;
     String user = userInfo.getUtilizador();
     //final String query = "select a.*,b.isread, b.suspend from notifications a, user_notifications b where a.id=b.notificationid "+(listNew?"and b.isread=0":"")+" and b.userid=? order by a.created desc";
-    final String query = "select a.*,b.isread, b.suspend, b.picktask, b.externallink, b.activedate from notifications a, user_notifications b where a.id=b.notificationid "+(listNew?"and b.isread=0":"")+" and b.userid=? order by a.created desc";
+    final String query = "select a.*,b.isread, b.suspend, b.picktask, b.externallink, b.activedate from notifications a, user_notifications b where a.id=b.notificationid "+(listNew?"and b.isread=0 and  b.suspend<now() ":"and (b.isread=0 or b.isread=1)")+" and b.userid=? order by a.created desc";
     ArrayList<Notification> notifications = new ArrayList<Notification>();
 
     // lista mensagens
@@ -381,35 +382,7 @@ public class NotificationManagerBean implements NotificationManager {
   
 
   public int deleteMessage(UserInfoInterface userInfo, int messageId) {
-    if(userInfo == null) return NOTIFICATION_ERROR;
-    final String query = "delete from user_notifications where userid=? and notificationid=?";
-    String userId = userInfo.getUtilizador();
-    int result = NOTIFICATION_ERROR;
-    
-    // marca mensagen como lida
-    Connection db = null;
-    PreparedStatement st = null;
-    DataSource ds = null;
-    try {
-      ds = Utils.getDataSource();
-      db = ds.getConnection();
-      db.setAutoCommit(true);
-      st = db.prepareStatement(query);
-      st.setString(1, userId);
-      st.setInt(2, messageId);
-
-      int n = st.executeUpdate();
-
-      st.close();
-      st = null;
-      result = NOTIFICATION_OK;
-      Logger.debug(userId, this, "deleteMessage", "Deleted "+n+" notification messages.");
-    } catch (SQLException e) {
-      Logger.warning(userId, this, "deleteMessage", "Error deleting messages.", e);
-    } finally {
-      DatabaseInterface.closeResources(db, st);
-    }
-    return result;
+	  return markMessage(userInfo, messageId, MSG_CODE_DELETE);
   }
    
   private int suspendMessage(UserInfoInterface userInfo, int messageId, int code, Date suspendDate) {

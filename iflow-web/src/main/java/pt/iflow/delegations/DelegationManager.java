@@ -983,7 +983,7 @@ public class DelegationManager extends Thread {
           String rejectkey = Crypt.encrypt("reject_delegation" + delegated + owner + flowid);
 
           /* Insercao do pedido de agendamento da actividade  */
-
+//[CREATENOTIFICATION]
           pst = db.prepareStatement(DBQueryManager.getQuery("DelegationManager.DELEGATION_REQUEST"), new String[]{"hierarchyid"});
           pst.setInt(1, fatherid);
           pst.setString(2, delegated);

@@ -1164,9 +1164,10 @@ td.gauge_empty {
     width: 25rem !important;
     height: 15rem;
     background-color: white;
-    border-style: outset;
+    border-style: double;
     border-width: 2px;
     border-radius: 8px;
+    color:black;
 }
 
 .drop_menu > li{
@@ -1211,3 +1212,4 @@ td.gauge_empty {
 	background-color: white;
 }
 
+.special { background-color: #000; color: #fff; }

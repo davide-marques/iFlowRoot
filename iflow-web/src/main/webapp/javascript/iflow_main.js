@@ -1191,12 +1191,7 @@ function updateMessageCount() {
 	  makeRequest(msgHandlerJSP, 'id='+id+'&action='+action, markNotificationCallback_alert, 'text', {id:id,action:action});
 	}
 */
-function markNotification_alert(id,action, suspendDate) {
-	  // do stuff
-	  hidetooltips();
-	  makeRequest(msgHandlerJSP, 'id='+id+'&action='+action+'&suspendDate='+suspendDate, markNotificationCallback_alert, 'text', {id:id,action:action});
-	  updateNotifications();
-	}
+
 
 function markNotification_schedule(id,action) {
 	  // do stuff
@@ -1208,51 +1203,6 @@ function markNotification_schedule(id,action) {
 	  
 	  }
 
-
-
-function markNotificationCallback_alert(text, params) {
-	  if (text.indexOf("session-expired") > 0) {
-	    openLoginIbox();
-	  }
-	  
-	  // Notifications
-	  try {
-	    response = Json.evaluate(text); // use mootools json
-	    if(response.success) {
-	      id = params.id;
-	      action = params.action;
-	      var objRef = document.getElementById("msg_tr_"+id);
-		  var val= parseInt($("#delegButtonCount").text());
-	      $('new_msg_count').innerHTML=response.count; // update new count
-	      switch(action) {
-	      case 'M':  // mark read (dashboard)
-	    	  tabber_load(1, mainContentJSP);
-	        break;
-	      case 'R':  // mark read
-	    	 // $("#msg_img_"+id).attr("src","images/icon_read.png");
-	    	 // tabber(6,'','',inboxJSP,'');
-	    	  break;
-	      case 'U':  // unmark read
-	    	  //$("#msg_img_"+id).attr("src","images/icon_unread.png");
-	    	 // tabber(6,'','',inboxJSP,'');
-	    	  break;	    	  
-	      case 'S':  // Schedule
-	    	  $(objRef).remove();
-	    	  break;
-	      case 'D':  // delete
-	    	  if($("#msg_img_"+id).attr("src") =="images/icon_unread.png")
-	        	//  $("#delegButtonCount").text(val-1);
-	    	  $(objRef).remove();
-	    	 // tabber(6,'','',inboxJSP,'');
-	        break;
-	      }
-	      updateNotifications();
-	    } else {
-	      // error occurred
-	      alert(messages.mark_msg_error);
-	    }
-	  } catch(err) {}
-	}
 
 
 function markNotification(id,action) {
@@ -1396,6 +1346,11 @@ function caltasks(id, format) {
   if (!format) {
     format = "%d/%m/%Y";
   }
+  var today = new Date();
+  var dd = today.getDate()-1;
+  var mm = today.getMonth()+1; //January is 0!
+  var yyyy = today.getFullYear();
+  var mindate = yyyy+''+mm+''+dd;
   var showsHourHalf = format.indexOf('%I') > -1;
   var showsHourFull = format.indexOf('%H') > -1;
   var showsHour = showsHourHalf || showsHourFull;
@@ -1414,7 +1369,9 @@ function caltasks(id, format) {
     ifFormat       :    format,       // format of the input field
     showsTime      :    showsTime,
     timeFormat     :    timeFormat,
+    range          :    [2018,2018],
     electric       :    false
+    
   });
 }
 
@@ -2429,7 +2386,96 @@ function fsmailer(isOn){
 				}		
 		}
 		}
+//[NOTIFICATIONS_ACTIONS] 
 
+function markNotification_alert(id,action, suspendDate) {
+	  // do stuff
+	  hidetooltips();
+	 // alert(id);
+	  makeRequest(msgHandlerJSP, 'id='+id+'&action='+action+'&suspendDate='+suspendDate, markNotificationCallback_alert, 'text', {id:id,action:action});
+	  //updateNotifications();
+	}
+
+function markNotificationCallback_alert(text, params) {
+	  if (text.indexOf("session-expired") > 0) {
+	    openLoginIbox();
+	  }
+	  
+}
+/*http://campar.in.tum.de/twiki/pub/TWiki/JSCalendarContrib/doc/html/reference.html*/
+function notification_caltasks(id, format) {
+		  if (!format) {
+		    format = "%d/%m/%Y";
+		  }
+		  
+		  var showsHourHalf = format.indexOf('%I') > -1;
+		  var showsHourFull = format.indexOf('%H') > -1;
+		  var showsHour = showsHourHalf || showsHourFull;
+		  var showsMinute = format.indexOf('%M') > -1;
+		  var showsSeconds = format.indexOf('%S') > -1;
+		  var showsTime = showsHour || showsMinute || showsSeconds;
+		  var timeFormat = "24"; // keep default 24
+		  if (showsHourHalf) {
+		    timeFormat = "12";
+		  }
+		  if (showsHourFull) {
+		    timeFormat = "24";
+		  }
+		  Calendar.setup({
+		    inputField     :    id,   // id of the input field
+		    ifFormat       :    format,       // format of the input field
+		    showsTime      :    showsTime,
+		    timeFormat     :    timeFormat,
+		    range          :    getYearRange(),
+		    dateStatusFunc :    dateStatusHandler,
+		    electric       :    false
+		    
+		  });
+		}
+
+//this table holds your special days, so that we can automatize
+//things a bit:
+var SPECIAL_DAYS = {
+ 0 : [ 13, 24 ],             // special days in January
+ 2 : [ 1, 6, 8, 12, 18 ],    // special days in March
+ 8 : [ 21, 11 ],             // special days in September
+11 : [ 25, 28 ]              // special days in December
+};
+function getYearRange(){
+	var today = new Date();
+	var todayPlusSeven = new Date();
+	todayPlusSeven.setDate(today.getDate()+7);
+	return [today.getFullYear(),todayPlusSeven.getFullYear()];
+}
+
+//this function returns true if the passed date is special~
+function nextSevendays( dateToCompare){
+	
+	  var today = new Date();
+	  var todayPlusSeven = new Date();
+	  today.setHours(0,0,0,0);
+	  todayPlusSeven.setDate(today.getDate()+6);
+	  dateToCompare.setHours(0,0,0,0);
+	  if(dateToCompare<today || dateToCompare>todayPlusSeven) return true;
+	  return false;
+}
+function dateIsSpecial(year, month, day) {
+ var m = SPECIAL_DAYS[month];
+ if (!m) return false;
+ for (var i in m) if (m[i] == day) return true;
+ return false;
+}
+
+//this is the actual date status handler.  Note that it receives the
+//date object as well as separate values of year, month and date, for
+//your confort.
+function dateStatusHandler(date, y, m, d) {
+ //if (dateIsSpecial(y, m, d)) return true;
+ if(nextSevendays(date)) return "disabled";
+ else return false;
+ // return true above if you want to disable other dates
+}
+//[NOTIFICATIONS_ACTIONS] END
 //[NOTIFICATIONS] /*To ALWAYS update delegbutton depending on notifications*/
 
 try{
@@ -2450,9 +2496,6 @@ try{
 	if($("#delegButtonCount")){
 		
 		setInterval(delegButtonCountUpdate, 200);
-		//setInterval(delegButtonHide, 200);
-		//setInterval(notificationListUpdate, 200);
-		//setInterval(notificationListHide, 200);
 	}
 } catch (err) {}
 
@@ -2526,6 +2569,7 @@ function showAlert() {
 		}
 	}catch(err){}
 }
+
 
 
 //[NOTIFICATIONS] END

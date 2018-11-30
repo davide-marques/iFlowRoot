@@ -4,7 +4,7 @@ div.calendar { position: relative;}
 
 .calendar, .calendar table {
 	
-  /* Nazaré Cunha */
+  /* Nazarï¿½ Cunha */
   width:240px; 
   height:185px;
   border: 1px #556;
@@ -41,7 +41,7 @@ div.calendar { position: relative;}
 
 .calendar thead .headrow { /* Row <TR> containing navigation buttons */
   /*background: #72a0e2;*/
-  color: #fff;
+ /* color: #fff;*/
   
 }
 
